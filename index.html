@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#06121b">
-<title>Для студентів НЛТУ • Ваш розклад</title>
+<title>Для студентів НЛТУ • Розклад пар</title>
   <link rel="icon" type="image/png" href="githubimage.png">
   <link rel="apple-touch-icon" href="githubimage.png">
 <style>
@@ -227,6 +227,21 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 .week-both{color:#b8c7e8;background:rgba(184,199,232,.08);border-color:rgba(184,199,232,.24)}
 .type-mixed{color:#cfe7ff;background:rgba(120,180,220,.09);border-color:rgba(120,180,220,.24)}
 
+
+.weather-pill{border:1px solid var(--line2);background:rgba(8,27,40,.72);color:var(--text);border-radius:15px;padding:7px 11px;display:flex;align-items:center;gap:8px;min-width:78px;cursor:pointer;transition:.18s}
+.weather-pill:hover{border-color:rgba(39,217,232,.38);transform:translateY(-1px)}
+.weather-pill>span:first-child{font-size:22px}.weather-pill b{display:block;font-size:13px;line-height:1.05}.weather-pill small{display:block;color:var(--muted);font-size:9px;margin-top:2px}
+.home-weather{width:100%;margin-top:18px;padding:20px 24px;text-align:left;color:var(--text);display:flex;justify-content:space-between;align-items:center;gap:20px;background:linear-gradient(145deg,rgba(10,28,41,.94),rgba(5,17,27,.92))}
+.home-weather:hover{border-color:var(--line2);transform:translateY(-1px)}.home-weather-left{min-width:0;flex:1}.home-weather-main{display:flex;align-items:center;gap:15px}.home-weather-icon{font-size:42px}.home-weather-main strong{display:block;font-size:28px;letter-spacing:-.03em}.home-weather-main span:last-child{display:block;color:var(--muted);font-size:13px;margin-top:3px}
+.home-weather-stats{display:flex;gap:10px;flex-wrap:wrap}.home-weather-stats>div{min-width:95px;padding:11px 13px;border:1px solid var(--line);border-radius:14px;background:rgba(7,21,31,.72)}.home-weather-stats b{display:block;font-size:16px}.home-weather-stats span{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.weather-hero{padding:28px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-top:18px}.weather-hero-main{display:flex;align-items:center;gap:24px}.weather-big-icon{font-size:82px;line-height:1}.weather-place{color:var(--muted);font-size:14px;font-weight:800}.weather-temp{font-size:58px;line-height:1;font-weight:950;letter-spacing:-.055em;margin:6px 0}.weather-desc{font-size:16px;color:#bcd0dc}.weather-updated{color:var(--muted);font-size:11px;white-space:nowrap}
+.weather-stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}.weather-stat{padding:17px;display:flex;align-items:center;gap:12px}.weather-stat>span{font-size:25px}.weather-stat b{display:block;font-size:17px}.weather-stat small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+.weather-section{padding:24px;margin-top:18px}.hourly-scroll{display:flex;gap:9px;overflow-x:auto;padding-bottom:3px}.hour-card{min-width:92px;padding:13px 10px;border:1px solid var(--line);border-radius:15px;background:rgba(7,24,36,.6);text-align:center}.hour-card.active{border-color:rgba(50,232,154,.55)}.hour-time{font-size:11px;color:var(--muted);font-weight:900}.hour-icon{font-size:26px;margin:7px 0}.hour-temp{font-size:16px;font-weight:950}.hour-rain{font-size:10px;color:#87b8d4;margin-top:5px}
+.daily-list{display:grid;gap:8px}.day-weather{display:grid;grid-template-columns:130px 55px minmax(100px,1fr) 100px 90px;align-items:center;gap:15px;padding:13px 15px;border:1px solid var(--line);border-radius:15px;background:rgba(7,24,36,.6)}.day-weather.today{border-color:rgba(50,232,154,.45)}.day-name{font-weight:900}.day-name small{display:block;color:var(--muted);font-size:10px;margin-top:2px}.day-weather-icon{font-size:28px;text-align:center}.day-desc{color:var(--muted);font-size:12px}.day-temp{font-weight:900}.day-rain{font-size:11px;color:#87b8d4;text-align:right}.weather-source{color:var(--muted);font-size:10px;text-align:right;margin-top:10px}
+@media(max-width:950px){.weather-stats-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:720px){.weather-pill{padding:6px 8px;min-width:60px}.weather-pill small{display:none}.home-weather{display:block}.home-weather-stats{margin-top:15px}.home-weather-stats>div{flex:1;min-width:80px}.weather-hero{display:block;padding:21px}.weather-hero-main{gap:15px}.weather-big-icon{font-size:60px}.weather-temp{font-size:46px}.weather-updated{margin-top:15px}.weather-section{padding:17px}.day-weather{grid-template-columns:75px 42px minmax(80px,1fr) 65px;gap:9px}.day-rain{display:none}}
+@media(max-width:430px){.home-weather{padding:17px}.home-weather-icon{font-size:35px}.home-weather-main strong{font-size:24px}.day-weather{grid-template-columns:68px 35px 1fr 58px;font-size:11px}}
+
 </style>
 </head>
 <body>
@@ -239,6 +254,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
     <nav class="nav">
       <button class="nav-btn active" data-page="home"><span class="nav-icon">⌂</span><span>Головна</span></button>
       <button class="nav-btn" data-page="schedule"><span class="nav-icon">▣</span><span>Мій розклад</span></button>
+      <button class="nav-btn" data-page="weather"><span class="nav-icon">☼</span><span>Погода</span></button>
     </nav>
     <div class="sidebar-bottom">
       <strong>🌲 НЛТУ </strong>
@@ -252,7 +268,9 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
         <h1 id="greeting">Доброго дня!</h1>
         <p>Продуктивно вам попрацювати</p>
       </div>
-      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end"><div class="group-control"><span>Група</span><select id="groupSelect"></select><button class="group-add" id="groupOpen" type="button">Змінити</button></div><div class="status" id="syncStatus">Підключення…</div><div class="date-pill">▣ <span id="headerDate"></span></div></div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end"><div class="group-control"><span>Група</span><select id="groupSelect"></select><button class="group-add" id="groupOpen" type="button">Змінити</button></div><div class="status" id="syncStatus">Підключення…</div>
+        <button class="weather-pill" id="weatherQuick" type="button" data-page="weather"><span id="weatherQuickIcon">☁</span><span><b id="weatherQuickTemp">—°</b><small>Львів</small></span></button>
+        <div class="date-pill">▣ <span id="headerDate"></span></div></div>
     </div>
 
     <section id="home" class="page active">
@@ -274,6 +292,18 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
           <div id="nextLessons"></div>
         </div>
       </div>
+
+      <button class="panel home-weather" id="homeWeather" type="button">
+        <div class="home-weather-left">
+          <div class="panel-head" style="margin-bottom:8px"><h2>Погода у Львові</h2><div class="sub" id="homeWeatherUpdated">оновлення…</div></div>
+          <div class="home-weather-main"><span class="home-weather-icon" id="homeWeatherIcon">☁</span><div><strong id="homeWeatherTemp">—°C</strong><span id="homeWeatherText">Завантаження погоди…</span></div></div>
+        </div>
+        <div class="home-weather-stats">
+          <div><b id="homeWeatherFeels">—°</b><span>відчувається</span></div>
+          <div><b id="homeWeatherWind">— м/с</b><span>вітер</span></div>
+          <div><b id="homeWeatherRain">—%</b><span>опади</span></div>
+        </div>
+      </button>
 
       <div class="panel week-panel">
         <div class="panel-head"><h2>Розклад на тиждень</h2><div class="sub">обери день</div></div>
@@ -297,6 +327,35 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
         <div id="scheduleList" class="schedule-list"></div>
         <div class="save-note">Розклад зберігається автоматично на цьому пристрої.</div>
       </div>
+    </section>
+
+    <section id="weather" class="page">
+      <div class="toolbar">
+        <div><h2>Погода у Львові</h2><p>Оперативний прогноз для Львова</p></div>
+        <button class="btn btn-ghost" id="weatherRefresh" type="button">↻ Оновити</button>
+      </div>
+      <div class="weather-hero panel">
+        <div class="weather-hero-main">
+          <div class="weather-big-icon" id="weatherHeroIcon">☁</div>
+          <div><div class="weather-place">Львів, Україна</div><div class="weather-temp" id="weatherHeroTemp">—°C</div><div class="weather-desc" id="weatherHeroDesc">Завантаження…</div></div>
+        </div>
+        <div class="weather-updated" id="weatherUpdated">Оновлення…</div>
+      </div>
+      <div class="weather-stats-grid">
+        <div class="weather-stat panel"><span>🌡</span><div><b id="wFeels">—°C</b><small>Відчувається</small></div></div>
+        <div class="weather-stat panel"><span>💧</span><div><b id="wHumidity">—%</b><small>Вологість</small></div></div>
+        <div class="weather-stat panel"><span>💨</span><div><b id="wWind">— м/с</b><small>Вітер</small></div></div>
+        <div class="weather-stat panel"><span>☂</span><div><b id="wRain">—%</b><small>Ймовірність опадів</small></div></div>
+      </div>
+      <div class="panel weather-section">
+        <div class="panel-head"><h2>Погодинний прогноз</h2><div class="sub">найближчі години</div></div>
+        <div class="hourly-scroll" id="hourlyWeather"></div>
+      </div>
+      <div class="panel weather-section">
+        <div class="panel-head"><h2>Прогноз на 7 днів</h2><div class="sub">Львів</div></div>
+        <div class="daily-list" id="dailyWeather"></div>
+      </div>
+      <div class="weather-source">Дані оновлюються автоматично · Open-Meteo</div>
     </section>
   </main>
 </div>
@@ -357,7 +416,7 @@ function render(){const arr=filtered();$('totalLessons').textContent=arr.length;
 function updateHeader(){const now=new Date(),h=now.getHours();$('greeting').textContent=h<6?'Доброї ночі!':h<12?'Доброго ранку!':h<18?'Доброго дня!':'Доброго вечора!';$('headerDate').textContent=`${fullDays[now.getDay()]||'Сьогодні'}, ${now.toLocaleDateString('uk-UA',{day:'numeric',month:'long'})}`;$('todayTitle').textContent=`Сьогодні, ${fullDays[now.getDay()]||'сьогодні'}`;$('todaySubtitle').textContent=now.toLocaleDateString('uk-UA',{day:'numeric',month:'long',year:'numeric'})}
 function fillGroups(){const groups=[...new Set([...availableGroups,...lessons.map(x=>x.group).filter(Boolean)])].sort((a,b)=>a.localeCompare(b,'uk'));['groupSelect','groupSelect2'].forEach(id=>{const s=$(id);s.innerHTML=groups.map(g=>`<option value="${esc(g)}">${esc(g)}</option>`).join('');if(groups.includes(group))s.value=group;else{group=groups[0]||'';s.value=group}})}
 function setGroup(v){if(!v)return;group=v;localStorage.setItem('nltu_group_v11',group);fillGroups();render()}
-function showPage(page){$('home').classList.toggle('active',page==='home');$('schedule').classList.toggle('active',page==='schedule');document.querySelectorAll('.nav-btn[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));render()}
+function showPage(page){$('home').classList.toggle('active',page==='home');$('schedule').classList.toggle('active',page==='schedule');$('weather').classList.toggle('active',page==='weather');document.querySelectorAll('.nav-btn[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));render();if(page==='weather')loadWeather()}
 let jsonpCounter=0;
 function gvizUrl(sheet,cb){
   const params=new URLSearchParams({
@@ -570,6 +629,16 @@ function dedupeLessons(items){
   }
   return [...map.values()];
 }
+
+const WEATHER_LAT=49.8397,WEATHER_LON=24.0297;
+let weatherData=null,weatherLoading=false,weatherLoadedAt=0;
+function weatherInfo(code){const c=Number(code);if(c===0)return ['☀️','Ясно'];if([1,2].includes(c))return ['🌤️','Мінлива хмарність'];if(c===3)return ['☁️','Похмуро'];if([45,48].includes(c))return ['🌫️','Туман'];if([51,53,55,56,57].includes(c))return ['🌦️','Мряка'];if([61,63,65,66,67,80,81,82].includes(c))return ['🌧️','Дощ'];if([71,73,75,77,85,86].includes(c))return ['🌨️','Сніг'];if([95,96,99].includes(c))return ['⛈️','Гроза'];return ['☁️','Хмарно'];}
+function weatherUrl(){const p=new URLSearchParams({latitude:WEATHER_LAT,longitude:WEATHER_LON,timezone:'Europe/Kyiv',forecast_days:'7',current:'temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,wind_direction_10m,cloud_cover',hourly:'temperature_2m,precipitation_probability,weather_code,wind_speed_10m',daily:'weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunrise,sunset'});return 'https://api.open-meteo.com/v1/forecast?'+p.toString();}
+async function loadWeather(force=false){if(weatherLoading||(!force&&weatherData&&Date.now()-weatherLoadedAt<300000)){renderWeather();return}weatherLoading=true;try{const r=await fetch(weatherUrl(),{cache:'no-store'});if(!r.ok)throw Error('Weather HTTP '+r.status);weatherData=await r.json();weatherLoadedAt=Date.now();localStorage.setItem('nltu_weather_cache_v1',JSON.stringify({at:weatherLoadedAt,data:weatherData}));renderWeather()}catch(e){console.error('Помилка погоди:',e);if(!weatherData)try{const c=JSON.parse(localStorage.getItem('nltu_weather_cache_v1')||'null');if(c?.data){weatherData=c.data;weatherLoadedAt=c.at||0}}catch{}renderWeather(true)}finally{weatherLoading=false}}
+function renderWeather(error=false){if(!weatherData){$('weatherQuickTemp').textContent='—°';$('homeWeatherTemp').textContent='—°C';$('homeWeatherText').textContent=error?'Погоду тимчасово не вдалося завантажити':'Завантаження погоди…';return}const c=weatherData.current||{}, [icon,desc]=weatherInfo(c.weather_code),temp=Math.round(c.temperature_2m),feels=Math.round(c.apparent_temperature),wind=Math.round(Number(c.wind_speed_10m)||0);const now=new Date(),idx=weatherData.hourly?.time?.findIndex(t=>t.startsWith(now.toISOString().slice(0,13)));const rain=Math.round((weatherData.hourly?.precipitation_probability||[])[idx>=0?idx:0]||0);$('weatherQuickIcon').textContent=icon;$('weatherQuickTemp').textContent=`${temp}°`;$('homeWeatherIcon').textContent=icon;$('homeWeatherTemp').textContent=`${temp}°C`;$('homeWeatherText').textContent=desc;$('homeWeatherFeels').textContent=`${feels}°`;$('homeWeatherWind').textContent=`${wind} м/с`;$('homeWeatherRain').textContent=`${rain}%`;$('homeWeatherUpdated').textContent=`оновлено ${new Date(weatherLoadedAt||Date.now()).toLocaleTimeString('uk-UA',{hour:'2-digit',minute:'2-digit'})}`;$('weatherHeroIcon').textContent=icon;$('weatherHeroTemp').textContent=`${temp}°C`;$('weatherHeroDesc').textContent=desc;$('weatherUpdated').textContent=`Оновлено ${new Date(weatherLoadedAt||Date.now()).toLocaleTimeString('uk-UA',{hour:'2-digit',minute:'2-digit'})}`;$('wFeels').textContent=`${feels}°C`;$('wHumidity').textContent=`${Math.round(c.relative_humidity_2m||0)}%`;$('wWind').textContent=`${wind} м/с`;$('wRain').textContent=`${rain}%`;renderHourlyWeather();renderDailyWeather()}
+function renderHourlyWeather(){const h=weatherData.hourly;if(!h)return;const now=new Date(),key=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0')+'T'+String(now.getHours()).padStart(2,'0')+':00';let s=h.time.findIndex(t=>t>=key);if(s<0)s=0;const e=Math.min(s+18,h.time.length);$('hourlyWeather').innerHTML=Array.from({length:e-s},(_,i)=>{const k=s+i,dt=new Date(h.time[k]),[ic]=weatherInfo(h.weather_code[k]);return `<div class="hour-card ${i===0?'active':''}"><div class="hour-time">${i===0?'Зараз':dt.toLocaleTimeString('uk-UA',{hour:'2-digit',minute:'2-digit'})}</div><div class="hour-icon">${ic}</div><div class="hour-temp">${Math.round(h.temperature_2m[k])}°</div><div class="hour-rain">💧 ${Math.round(h.precipitation_probability[k]||0)}%</div></div>`}).join('')}
+function renderDailyWeather(){const d=weatherData.daily;if(!d)return;$('dailyWeather').innerHTML=d.time.map((date,i)=>{const dt=new Date(date+'T12:00:00'),[ic,desc]=weatherInfo(d.weather_code[i]),name=i===0?'Сьогодні':dt.toLocaleDateString('uk-UA',{weekday:'long'}),dateText=dt.toLocaleDateString('uk-UA',{day:'numeric',month:'long'});return `<div class="day-weather ${i===0?'today':''}"><div class="day-name">${name}<small>${dateText}</small></div><div class="day-weather-icon">${ic}</div><div class="day-desc">${desc}</div><div class="day-temp">${Math.round(d.temperature_2m_min[i])}° / ${Math.round(d.temperature_2m_max[i])}°</div><div class="day-rain">💧 ${Math.round(d.precipitation_probability_max[i]||0)}%</div></div>`}).join('')}
+
 async function loadRemote(){
   const st=$('syncStatus');
   try{
@@ -603,8 +672,8 @@ async function loadRemote(){
 function openGroupModal(){fillGroups();$('groupModal').classList.add('open');$('groupModal').setAttribute('aria-hidden','false')}
 function closeGroupModal(){$('groupModal').classList.remove('open');$('groupModal').setAttribute('aria-hidden','true')}
 function saveGroup(){setGroup($('groupSelect2').value);closeGroupModal()}
-document.querySelectorAll('.nav-btn[data-page]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+document.querySelectorAll('.nav-btn[data-page]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));$('weatherQuick').addEventListener('click',()=>showPage('weather'));$('homeWeather').addEventListener('click',()=>showPage('weather'));$('weatherRefresh').addEventListener('click',()=>loadWeather(true));
 $('groupSelect').addEventListener('change',e=>setGroup(e.target.value));$('groupSelect2').addEventListener('change',e=>setGroup(e.target.value));$('groupOpen').addEventListener('click',openGroupModal);$('groupOpen2').addEventListener('click',openGroupModal);$('groupClose').addEventListener('click',closeGroupModal);$('groupSave').addEventListener('click',saveGroup);$('groupModal').addEventListener('click',e=>{if(e.target.id==='groupModal')closeGroupModal()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeGroupModal()});document.addEventListener('click',e=>{const d=e.target.closest('.day');if(d){selectedDay=Number(d.dataset.day);render()}const w=e.target.closest('.week-btn');if(w){weekFilter=w.dataset.weekFilter;render()}});
-fillGroups();setGroup(group);loadRemote();setInterval(()=>{renderActive();renderNext();updateHeader();if($('schedule').classList.contains('active'))renderList('scheduleList',selectedDay)},1000);
+fillGroups();setGroup(group);loadRemote();loadWeather();setInterval(()=>{renderActive();renderNext();updateHeader();if($('schedule').classList.contains('active'))renderList('scheduleList',selectedDay)},1000);setInterval(()=>loadWeather(true),300000);
 </script></body></html>
