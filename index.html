@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#06121b">
-<title>Для студентів НЛТУ • Розклад пар</title>
+<title>Для студентів НЛТУ • Розклад та погода</title>
   <link rel="icon" type="image/png" href="githubimage.png">
   <link rel="apple-touch-icon" href="githubimage.png">
 <style>
@@ -242,6 +242,21 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 @media(max-width:720px){.weather-pill{padding:6px 8px;min-width:60px}.weather-pill small{display:none}.home-weather{display:block}.home-weather-stats{margin-top:15px}.home-weather-stats>div{flex:1;min-width:80px}.weather-hero{display:block;padding:21px}.weather-hero-main{gap:15px}.weather-big-icon{font-size:60px}.weather-temp{font-size:46px}.weather-updated{margin-top:15px}.weather-section{padding:17px}.day-weather{grid-template-columns:75px 42px minmax(80px,1fr) 65px;gap:9px}.day-rain{display:none}}
 @media(max-width:430px){.home-weather{padding:17px}.home-weather-icon{font-size:35px}.home-weather-main strong{font-size:24px}.day-weather{grid-template-columns:68px 35px 1fr 58px;font-size:11px}}
 
+
+.canteen-days{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:18px}
+.canteen-day{border:1px solid var(--line2);background:rgba(7,24,36,.65);color:var(--muted);border-radius:12px;padding:11px 10px;font-weight:900;cursor:pointer;transition:.18s}
+.canteen-day:hover{border-color:rgba(39,217,232,.4);color:var(--text);transform:translateY(-1px)}
+.canteen-day.active{background:rgba(39,217,232,.1);border-color:rgba(39,217,232,.5);color:var(--text);box-shadow:0 0 0 1px rgba(39,217,232,.08) inset}
+.canteen-today{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border:1px solid rgba(50,232,154,.25);background:rgba(50,232,154,.07);color:#9be9c7;border-radius:10px;font-size:11px;font-weight:900}
+.canteen-menu-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.canteen-category{border:1px solid var(--line);border-radius:18px;background:rgba(7,21,31,.68);overflow:hidden}
+.canteen-category-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.025)}
+.canteen-category-title{font-size:14px;font-weight:950}.canteen-category-count{font-size:10px;color:var(--muted);font-weight:800}
+.canteen-items{padding:5px 15px 8px}.canteen-item{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.055)}.canteen-item:last-child{border-bottom:0}
+.canteen-item-name{font-size:13px;line-height:1.35;color:#dce8ee}.canteen-item-price{flex:0 0 auto;font-size:13px;font-weight:950;color:#eef3f6;white-space:nowrap}.canteen-item-price.no-price{color:var(--muted);font-weight:800}
+.canteen-note{margin-top:13px;color:var(--muted);font-size:11px;text-align:center}
+@media(max-width:720px){.canteen-days{grid-template-columns:repeat(5,1fr);gap:5px}.canteen-day{padding:9px 5px;font-size:11px}.canteen-menu-grid{grid-template-columns:1fr}.canteen-category-head{padding:13px 14px}.canteen-items{padding:4px 14px 7px}.canteen-item{padding:10px 0}.canteen-item-name,.canteen-item-price{font-size:12px}}
+
 </style>
 </head>
 <body>
@@ -255,6 +270,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
       <button class="nav-btn active" data-page="home"><span class="nav-icon">⌂</span><span>Головна</span></button>
       <button class="nav-btn" data-page="schedule"><span class="nav-icon">▣</span><span>Мій розклад</span></button>
       <button class="nav-btn" data-page="weather"><span class="nav-icon">☼</span><span>Погода</span></button>
+      <button class="nav-btn" data-page="canteen"><span class="nav-icon">♨</span><span>Їдальня</span></button>
     </nav>
     <div class="sidebar-bottom">
       <strong>🌲 НЛТУ </strong>
@@ -357,6 +373,25 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
       </div>
       <div class="weather-source">Дані оновлюються автоматично · Open-Meteo</div>
     </section>
+
+    <section id="canteen" class="page">
+      <div class="toolbar">
+        <div>
+          <h2>Їдальня</h2>
+          <p id="canteenSubtitle">Меню та ціни на сьогодні</p>
+        </div>
+        <div class="canteen-today" id="canteenToday">♨ Меню на сьогодні</div>
+      </div>
+
+      <div class="panel week-panel">
+        <div class="panel-head">
+          <div><h2 id="canteenDayTitle">Меню</h2><div class="sub">обери день тижня</div></div>
+        </div>
+        <div class="canteen-days" id="canteenDays"></div>
+        <div class="canteen-menu-grid" id="canteenMenu"></div>
+        <div class="canteen-note">Меню та ціни внесені за наданим списком їдальні. «—» означає, що ціну не вказано.</div>
+      </div>
+    </section>
   </main>
 </div>
 
@@ -372,6 +407,8 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
     <button class="btn btn-accent" id="groupSave" type="button" style="width:100%;margin-top:14px">Зберегти групу</button>
   </div>
 </div>
+
+
 
 <script>
 // Google Таблиця доступна лише для перегляду — Apps Script/API не потрібні.
@@ -416,7 +453,7 @@ function render(){const arr=filtered();$('totalLessons').textContent=arr.length;
 function updateHeader(){const now=new Date(),h=now.getHours();$('greeting').textContent=h<6?'Доброї ночі!':h<12?'Доброго ранку!':h<18?'Доброго дня!':'Доброго вечора!';$('headerDate').textContent=`${fullDays[now.getDay()]||'Сьогодні'}, ${now.toLocaleDateString('uk-UA',{day:'numeric',month:'long'})}`;$('todayTitle').textContent=`Сьогодні, ${fullDays[now.getDay()]||'сьогодні'}`;$('todaySubtitle').textContent=now.toLocaleDateString('uk-UA',{day:'numeric',month:'long',year:'numeric'})}
 function fillGroups(){const groups=[...new Set([...availableGroups,...lessons.map(x=>x.group).filter(Boolean)])].sort((a,b)=>a.localeCompare(b,'uk'));['groupSelect','groupSelect2'].forEach(id=>{const s=$(id);s.innerHTML=groups.map(g=>`<option value="${esc(g)}">${esc(g)}</option>`).join('');if(groups.includes(group))s.value=group;else{group=groups[0]||'';s.value=group}})}
 function setGroup(v){if(!v)return;group=v;localStorage.setItem('nltu_group_v11',group);fillGroups();render()}
-function showPage(page){$('home').classList.toggle('active',page==='home');$('schedule').classList.toggle('active',page==='schedule');$('weather').classList.toggle('active',page==='weather');document.querySelectorAll('.nav-btn[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));render();if(page==='weather')loadWeather()}
+function showPage(page){$('home').classList.toggle('active',page==='home');$('schedule').classList.toggle('active',page==='schedule');$('weather').classList.toggle('active',page==='weather');$('canteen').classList.toggle('active',page==='canteen');document.querySelectorAll('.nav-btn[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));render();if(page==='weather')loadWeather();if(page==='canteen')renderCanteen()}
 let jsonpCounter=0;
 function gvizUrl(sheet,cb){
   const params=new URLSearchParams({
@@ -639,6 +676,55 @@ function renderWeather(error=false){if(!weatherData){$('weatherQuickTemp').textC
 function renderHourlyWeather(){const h=weatherData.hourly;if(!h)return;const now=new Date(),key=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0')+'T'+String(now.getHours()).padStart(2,'0')+':00';let s=h.time.findIndex(t=>t>=key);if(s<0)s=0;const e=Math.min(s+18,h.time.length);$('hourlyWeather').innerHTML=Array.from({length:e-s},(_,i)=>{const k=s+i,dt=new Date(h.time[k]),[ic]=weatherInfo(h.weather_code[k]);return `<div class="hour-card ${i===0?'active':''}"><div class="hour-time">${i===0?'Зараз':dt.toLocaleTimeString('uk-UA',{hour:'2-digit',minute:'2-digit'})}</div><div class="hour-icon">${ic}</div><div class="hour-temp">${Math.round(h.temperature_2m[k])}°</div><div class="hour-rain">💧 ${Math.round(h.precipitation_probability[k]||0)}%</div></div>`}).join('')}
 function renderDailyWeather(){const d=weatherData.daily;if(!d)return;$('dailyWeather').innerHTML=d.time.map((date,i)=>{const dt=new Date(date+'T12:00:00'),[ic,desc]=weatherInfo(d.weather_code[i]),name=i===0?'Сьогодні':dt.toLocaleDateString('uk-UA',{weekday:'long'}),dateText=dt.toLocaleDateString('uk-UA',{day:'numeric',month:'long'});return `<div class="day-weather ${i===0?'today':''}"><div class="day-name">${name}<small>${dateText}</small></div><div class="day-weather-icon">${ic}</div><div class="day-desc">${desc}</div><div class="day-temp">${Math.round(d.temperature_2m_min[i])}° / ${Math.round(d.temperature_2m_max[i])}°</div><div class="day-rain">💧 ${Math.round(d.precipitation_probability_max[i]||0)}%</div></div>`}).join('')}
 
+
+const CANTEEN_MENU={
+  1:{name:'Понеділок',categories:[
+    {name:'Салати',items:[['Ст. бурячок з цибулею','35.00'],['Ст. Капуста з овочами','45.00'],['Ст. Корейська морква 100г','40.00']]},
+    {name:'Перші страви',items:[['Чанахи','90.00'],['Борщ з сметаною','60.00']]},
+    {name:'Другі страви',items:[['Відбивна куряча','80.00'],['Тефтелі в соусі','50.00'],['Котлета куряча з сиром','70.00'],['Гніздо з грибами і сиром','80.00'],['Риба з овочами','60.00']]},
+    {name:'Гарніри',items:[['Гречка з мяском','45.00'],['Макарони з маслом','40.00'],['Картопляне пюре','50.00']]},
+    {name:'Напої',items:[['Чай (в асортименті)','20.00'],['Кава','—'],['Сік (в асортименті) 180г','25.00'],['Чай холодний з лимоном','20.00'],['Компот з фруктів','20.00']]}
+  ]},
+  2:{name:'Вівторок',categories:[
+    {name:'Салати',items:[['Ст. бурячок з цибулею','35.00'],['Ст. Капуста з овочами','45.00'],['Ст. Корейська морква 100г','40.00'],['Ст. Огірок з кропом 100г','45.00']]},
+    {name:'Перші страви',items:[['Чанахи','90.00'],['Суп грибний з сиром','50.00']]},
+    {name:'Другі страви',items:[['Відбивна куряча','80.00'],['Тефтелі в соусі','50.00'],['Гомілка куряча печена','50.00'],['Риба з овочами','60.00'],['Стейк бедра куряче гриль','?'],['Котлета з грибами','70.00']]},
+    {name:'Гарніри',items:[['Гречка з мясом','45.00'],['Макарони по флотськи','60.00'],['Пюре з маслом','50.00']]},
+    {name:'Напої',items:[['Чай (в асортименті)','20.00'],['Кава','—'],['Сік (в асортименті) 180г','25.00'],['Чай холодний з лимоном','20.00'],['Компот з фруктів','20.00']]}
+  ]},
+  3:{name:'Середа',categories:[
+    {name:'Салати',items:[['Ст. бурячок з цибулею','35.00'],['Ст. Капуста з овочами','45.00'],['Ст. Корейська морква 100г','40.00'],['Ст. Огірок з кропом 100г','45.00']]},
+    {name:'Перші страви',items:[['Борщ з сметаною','60.00'],['Суп овочевий','50.00']]},
+    {name:'Другі страви',items:[['Голубець в підливі','40.00'],["Картопляник з м'ясом",'50.00'],['Відбивна куряча','80.00'],['Печінка з цибулею','50.00'],['Тефтелі в соусі','50.00'],['Риба смажена','60.00']]},
+    {name:'Гарніри',items:[['Картопляне пюре','50.00'],['Картопля по-селянськи','60.00'],['Рис з овочами','50.00'],['Гречка з маслом','45.00'],['Вареники (250г)','70.00'],['Пельмені (250г)','80.00']]},
+    {name:'Напої',items:[['Чай (в асортименті)','20.00'],['Кава','—'],['Компот 180г','20.00'],['Чай холодний 180г','20.00']]}
+  ]},
+  4:{name:'Четвер',categories:[
+    {name:'Салати',items:[['Огірок,сир,сметана','45.00'],['Синя капуста','45.00'],['Корейська морква','40.00'],['Бурячок','35.00']]},
+    {name:'Перші страви',items:[['Чанахи','90.00'],['Суп гречяний','50.00']]},
+    {name:'Другі страви',items:[['Відбивна куряча','80.00'],['Філе курки у вершковому соусі','80.00'],['Тефтелі в соусі','50.00'],['Голубець (рис,м’ясо)','40.00'],['Гніздо куряче з помідором','80.00'],['Налисник з м’ясом','60.00']]},
+    {name:'Гарніри',items:[['Картопляне пюре','50.00'],['Булгур з овочами','60.00'],['Гречка з маслом','45.00'],['Вареники (250г)','70.00'],['Пельмені (250г)','80.00']]},
+    {name:'Напої',items:[['Чай (в асортименті)','20.00'],['Кава','—'],['Компот 180г','20.00'],['Чай холодний 180г','20.00']]}
+  ]},
+  5:{name:'П’ятниця',categories:[
+    {name:'Салати',items:[['Капуста,помідор,огірок','45.00'],['Синя капуста','45.00'],['Корейська морква','40.00'],['Бурячок','35.00']]},
+    {name:'Перші страви',items:[['Розсольник (картопля,рис,огірок)','60.00'],['Суп пюре з печерицями','60.00']]},
+    {name:'Другі страви',items:[['Відбивна куряча','80.00'],['Філе куряче у вершковому соусі','80.00'],['Тефтелі в соусі','50.00'],['Гомілка куряча запеченя','50.00'],['Котлета з грибами','70.00'],['Картопляник з капустою','40.00'],['Риба з овочами','60.00']]},
+    {name:'Гарніри',items:[['Спагетті','60.00'],['Картопляне пюре','50.00'],['Гречка','45.00'],['Каша пшенична','40.00'],['Рис з овочами','60.00']]},
+    {name:'Напої',items:[['Чай в асортименті','20.00'],['Кава','—'],['Компот 180г','20.00'],['Чай холодний 180г','20.00']]}
+  ]}
+};
+let canteenDay=[1,2,3,4,5].includes(new Date().getDay())?new Date().getDay():1;
+function renderCanteen(){
+  const d=CANTEEN_MENU[canteenDay]||CANTEEN_MENU[1],today=new Date().getDay();
+  $('canteenDays').innerHTML=Object.entries(CANTEEN_MENU).map(([key,item])=>`<button class="canteen-day ${Number(key)===canteenDay?'active':''}" type="button" data-canteen-day="${key}">${daysMap[key]}<br><span style="font-size:9px;font-weight:700">${item.name}</span></button>`).join('');
+  $('canteenDayTitle').textContent=`Меню · ${d.name}`;
+  $('canteenSubtitle').textContent=Number(canteenDay)===today?'Меню та ціни на сьогодні':'Меню та ціни на обраний день';
+  $('canteenToday').textContent=Number(canteenDay)===today?'♨ Меню на сьогодні':'♨ Меню на '+d.name.toLowerCase();
+  $('canteenMenu').innerHTML=d.categories.map(cat=>`<div class="canteen-category"><div class="canteen-category-head"><div class="canteen-category-title">${esc(cat.name)}</div><div class="canteen-category-count">${cat.items.length} позицій</div></div><div class="canteen-items">${cat.items.map(([name,price])=>`<div class="canteen-item"><div class="canteen-item-name">${esc(name)}</div><div class="canteen-item-price ${price==='—'||price==='?'?'no-price':''}">${esc(price)}${price!=='—'&&price!=='?'?' грн':''}</div></div>`).join('')}</div></div>`).join('');
+}
+
+
 async function loadRemote(){
   const st=$('syncStatus');
   try{
@@ -674,6 +760,6 @@ function closeGroupModal(){$('groupModal').classList.remove('open');$('groupModa
 function saveGroup(){setGroup($('groupSelect2').value);closeGroupModal()}
 document.querySelectorAll('.nav-btn[data-page]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));$('weatherQuick').addEventListener('click',()=>showPage('weather'));$('homeWeather').addEventListener('click',()=>showPage('weather'));$('weatherRefresh').addEventListener('click',()=>loadWeather(true));
 $('groupSelect').addEventListener('change',e=>setGroup(e.target.value));$('groupSelect2').addEventListener('change',e=>setGroup(e.target.value));$('groupOpen').addEventListener('click',openGroupModal);$('groupOpen2').addEventListener('click',openGroupModal);$('groupClose').addEventListener('click',closeGroupModal);$('groupSave').addEventListener('click',saveGroup);$('groupModal').addEventListener('click',e=>{if(e.target.id==='groupModal')closeGroupModal()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeGroupModal()});document.addEventListener('click',e=>{const d=e.target.closest('.day');if(d){selectedDay=Number(d.dataset.day);render()}const w=e.target.closest('.week-btn');if(w){weekFilter=w.dataset.weekFilter;render()}});
-fillGroups();setGroup(group);loadRemote();loadWeather();setInterval(()=>{renderActive();renderNext();updateHeader();if($('schedule').classList.contains('active'))renderList('scheduleList',selectedDay)},1000);setInterval(()=>loadWeather(true),300000);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeGroupModal()}});document.addEventListener('click',e=>{const d=e.target.closest('.day');if(d){selectedDay=Number(d.dataset.day);render()}const w=e.target.closest('.week-btn');if(w){weekFilter=w.dataset.weekFilter;render()}const cd=e.target.closest('.canteen-day');if(cd){canteenDay=Number(cd.dataset.canteenDay);renderCanteen()}});
+fillGroups();setGroup(group);renderCanteen();loadRemote();loadWeather();setInterval(()=>{renderActive();renderNext();updateHeader();if($('schedule').classList.contains('active'))renderList('scheduleList',selectedDay)},1000);setInterval(()=>loadWeather(true),300000);
 </script></body></html>
